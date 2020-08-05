@@ -327,7 +327,7 @@ class PGD(AdversarialAttack):
         self.validator(var_examples, var_labels, iter_no="START")
 
         # random initialization if necessary
-        if random_init:
+        if random_init:# defaul:false
             perturbation.random_init()
             self.validator(perturbation(var_examples), var_labels,
                            iter_no="RANDOM")
@@ -349,7 +349,7 @@ class PGD(AdversarialAttack):
             loss_per_example = loss
             loss = loss.sum()
 
-            loss = -1 * loss
+            loss = -1 * loss # 
             torch.autograd.backward(loss.sum())
 
             if signed:
@@ -363,7 +363,7 @@ class PGD(AdversarialAttack):
                     this_best_loss = best_loss_per_example[i]
                     if this_best_loss is None or this_best_loss[1] < float(el):
                         mask_val[i] = 1
-                        best_loss_per_example[i] = (iter_no, float(el))
+                        best_loss_per_example[i] = (iter_no, float(el)) #find the maximize loss
 
                 if best_perturbation is None:
                     best_perturbation = self.threat_model(examples)
